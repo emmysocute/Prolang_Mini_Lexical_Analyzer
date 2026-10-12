@@ -7,6 +7,21 @@ class MiniLexer(Lexer):
     # Token ที่เราต้องการ
     tokens = {INVALID_ID,IDENTIFIER,INTEGER, STRING, OPERATOR,LPAREN,RPAREN,SEMICOLON}
 
+    # ข้าม space และ tab
+    ignore = ' \t'
+
+    # Comment
+    ignore_single_comment = r'//.*'
+
+    @_(r'/\*[\s\S]*?\*/')
+    def ignore_block_comment(self, t):
+        self.lineno += t.value.count('\n')
+
+    # newline
+    @_(r'\n+')
+    def ignore_newline(self, t):
+        self.lineno += len(t.value)
+
     # check identifier error
     @_(r'(_[a-zA-Z0-9]+|\d+[a-zA-Z_][a-zA-Z0-9_]*|[a-zA-Z0-9_]*_[a-zA-Z0-9_]*)')
     def INVALID_ID(self, t):
@@ -29,20 +44,12 @@ class MiniLexer(Lexer):
     # basic Operators you need to implement to pro Operators
     OPERATOR = r'[+*/-]'
 
-
     # Parentheses and Semicolon
     LPAREN = r'\('
     RPAREN = r'\)'
     SEMICOLON = r';'
 
     # Keywords
-
-    # Comments
-
-
-
-    # ข้าม space และ tab
-    ignore = ' \t'
 
 # ส่วนตัดคำ 
 lexer = MiniLexer()

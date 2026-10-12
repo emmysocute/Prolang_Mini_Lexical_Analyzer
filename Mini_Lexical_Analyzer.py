@@ -41,8 +41,14 @@ class MiniLexer(Lexer):
     # String
     STRING = r'"[^"\n"]*"'
 
-    # basic Operators you need to implement to pro Operators
-    OPERATOR = r'[+*/-]'
+    # Operators (ordered longest-match first to avoid partial matches)
+    # Arithmetic : +  -  *  /  %  **
+    # Assignment : =  +=  -=  *=  /=  %=
+    # Comparison : ==  !=  <  >  <=  >=
+    # Logical    : &&  ||  !
+    @_(r'\*\*|&&|\|\||==|!=|<=|>=|\+=|-=|\*=|/=|%=|[+\-*/%=<>!]')
+    def OPERATOR(self, t):
+        return t
 
     # Parentheses and Semicolon
     LPAREN = r'\('

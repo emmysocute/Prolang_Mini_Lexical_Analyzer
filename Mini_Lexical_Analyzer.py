@@ -5,7 +5,7 @@ from sly import Lexer
 class MiniLexer(Lexer):
 
     # Token ที่เราต้องการ
-    tokens = {INVALID_ID,IDENTIFIER,INTEGER, STRING, OPERATOR,LPAREN,RPAREN,SEMICOLON}
+    tokens = {INVALID_ID,IDENTIFIER,INTEGER, STRING, OPERATOR,LPAREN,RPAREN,SEMICOLON, KEYWORD}
 
     # ข้าม space และ tab
     ignore = ' \t'
@@ -53,7 +53,20 @@ class MiniLexer(Lexer):
     RPAREN = r'\)'
     SEMICOLON = r';'
 
-    # Keywords
+
+    # Keywords  
+    IDENTIFIER['if']       = KEYWORD
+    IDENTIFIER['then']     = KEYWORD
+    IDENTIFIER['else']     = KEYWORD
+    IDENTIFIER['endif']    = KEYWORD
+    IDENTIFIER['while']    = KEYWORD
+    IDENTIFIER['do']       = KEYWORD
+    IDENTIFIER['endwhile'] = KEYWORD
+    IDENTIFIER['print']    = KEYWORD
+    IDENTIFIER['newline']  = KEYWORD
+    IDENTIFIER['read']     = KEYWORD
+
+
 
 
     

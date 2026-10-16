@@ -43,10 +43,8 @@ class MiniLexer(Lexer):
 
     # Operators (ordered longest-match first to avoid partial matches)
     # Arithmetic : +  -  *  /  %  **
-    # Assignment : =  +=  -=  *=  /=  %=
     # Comparison : ==  !=  <  >  <=  >=
-    # Logical    : &&  ||  !
-    @_(r'\*\*|&&|\|\||==|!=|<=|>=|\+=|-=|\*=|/=|%=|[+\-*/%=<>!]')
+    @_(r'\+\+|--|==|<=|>=|[+\-*/=<>]')
     def OPERATOR(self, t):
         return t
 
@@ -57,12 +55,14 @@ class MiniLexer(Lexer):
 
     # Keywords
 
+
+    
 # ส่วนตัดคำ 
 lexer = MiniLexer()
 
 with open("input.txt", "r", encoding="utf-8") as file:
     text = file.read()
-text = '123'
+# text = '123'
 
 for token in lexer.tokenize(text):
     print(token.type.lower(),":", token.value)

@@ -1,3 +1,8 @@
+import sys
+import os
+import io
+import argparse
+from contextlib import redirect_stdout
 from sly import Lexer
 
 # Symbol Table
@@ -95,13 +100,71 @@ def print_token(token, symbol_table):
 
     
 # ส่วนตัดคำ 
+parser = argparse.ArgumentParser(description="Mini Lexical Analyzer")
+parser.add_argument("-i", required=True, help="Input source file")
+parser.add_argument("-e", help="Expected output file (optional)")
+
+args = parser.parse_args()
+
+input_file = args.i
+expect_file = args.e
+
+# Check input file
+if not os.path.isfile(input_file):
+    print(f"File: {input_file} Not Found", file=sys.stderr)
+    sys.exit(1)
+
+# Read input source code
+with open(input_file, "r", encoding="utf-8") as file:
+    input_text = file.read()
+
+# Read expected output only when -e is provided
+expect_output = None
+
+if expect_file is not None:
+    if not os.path.isfile(expect_file):
+        print(f"File: {expect_file} Not Found", file=sys.stderr)
+        sys.exit(1)
+
+    with open(expect_file, "r", encoding="utf-8") as file:
+        expect_output = file.read()
+
 lexer = MiniLexer()
-
-with open("input.txt", "r", encoding="utf-8") as file:
-    text = file.read()
-# text = '123'
-
 symbol_table = set()
-for token in lexer.tokenize(text):
-    print_token(token, symbol_table)
-    # print(token.type.lower(),":", token.value)
+
+captured_output = io.StringIO()
+
+try:
+    with redirect_stdout(captured_output):
+        for token in lexer.tokenize(input_text):
+            print_token(token, symbol_table)
+except SystemExit:
+    print(captured_output.getvalue(), end="")
+    sys.exit(1)
+
+
+actual_output = captured_output.getvalue()
+if expect_output is not None:
+    actual = actual_output.replace("\r\n", "\n").rstrip("\n")
+    expected = expect_output.replace("\r\n", "\n").rstrip("\n")
+
+    if actual == expected:
+        print("PASS: Output matches expected answer.")
+    else:
+        import difflib
+
+        print("FAIL: Output does not match expected answer.",
+              file=sys.stderr)
+
+        diff = difflib.unified_diff(
+            expected.splitlines(),
+            actual.splitlines(),
+            fromfile="expected",
+            tofile="actual",
+            lineterm=""
+        )
+
+        for line in diff:
+            print(line, file=sys.stderr)
+
+        sys.exit(1)

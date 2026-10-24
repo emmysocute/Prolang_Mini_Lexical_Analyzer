@@ -1,0 +1,21 @@
+keyword: read
+new identifier: A
+semicolon: ;
+keyword: read
+new identifier: B
+semicolon: ;
+keyword: if
+identifier "A" already in symbol table
+operator: >=
+identifier "B" already in symbol table
+keyword: then
+keyword: print
+string: "A is greater"
+semicolon: ;
+keyword: print
+keyword: newline
+semicolon: ;
+keyword: endif
+identifier "A" already in symbol table
+operator: ++
+semicolon: ;

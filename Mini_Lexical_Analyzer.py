@@ -67,6 +67,30 @@ class MiniLexer(Lexer):
     IDENTIFIER['read']     = KEYWORD
 
 
+def print_token(token, symbol_table):
+    kind = token.type
+    value = token.value
+
+    if kind == "IDENTIFIER":
+        if value in symbol_table:
+            print(f'identifier "{value}" already in symbol table')
+        else:
+            symbol_table.add(value)
+            print(f"new identifier: {value}")
+    elif kind == "KEYWORD":
+        print(f"keyword: {value}")
+    elif kind == "INTEGER":
+        print(f"integer: {value}")
+    elif kind == "STRING":
+        print(f"string: {value}")
+    elif kind == "OPERATOR":
+        print(f"operator: {value}")
+    elif kind == "LPAREN":
+        print("left parenthesis: (")
+    elif kind == "RPAREN":
+        print("right parenthesis: )")
+    elif kind == "SEMICOLON":
+        print("semicolon: ;")
 
 
     
@@ -77,5 +101,7 @@ with open("input.txt", "r", encoding="utf-8") as file:
     text = file.read()
 # text = '123'
 
+symbol_table = set()
 for token in lexer.tokenize(text):
-    print(token.type.lower(),":", token.value)
+    print_token(token, symbol_table)
+    # print(token.type.lower(),":", token.value)

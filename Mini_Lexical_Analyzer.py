@@ -144,6 +144,12 @@ except SystemExit:
 
 
 actual_output = captured_output.getvalue()
+print("----------===== OUTPUT =====----------")
+print(actual_output, end="")
+print("----------==================----------")
+print()
+print()
+print()
 if expect_output is not None:
     actual = actual_output.replace("\r\n", "\n").rstrip("\n")
     expected = expect_output.replace("\r\n", "\n").rstrip("\n")
@@ -168,3 +174,4 @@ if expect_output is not None:
             print(line, file=sys.stderr)
 
         sys.exit(1)
+

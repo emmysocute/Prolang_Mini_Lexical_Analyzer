@@ -49,6 +49,7 @@ class MiniLexer(Lexer):
     # Operators (ordered longest-match first to avoid partial matches)
     # Arithmetic : +  -  *  / 
     # Comparison : ==   <  >  <=  >=
+    
     @_(r'\+\+|--|==|<=|>=|[+\-*/=<>]')
     def OPERATOR(self, t):
         return t

@@ -47,8 +47,8 @@ class MiniLexer(Lexer):
     STRING = r'"[^"\n"]*"'
 
     # Operators (ordered longest-match first to avoid partial matches)
-    # Arithmetic : +  -  *  /  %  **
-    # Comparison : ==  !=  <  >  <=  >=
+    # Arithmetic : +  -  *  / 
+    # Comparison : ==   <  >  <=  >=
     @_(r'\+\+|--|==|<=|>=|[+\-*/=<>]')
     def OPERATOR(self, t):
         return t
